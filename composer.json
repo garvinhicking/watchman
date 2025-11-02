@@ -1,0 +1,14 @@
+{
+    "require": {
+        "php-tmdb/api": "^4",
+        "nyholm/psr7": "^1.8",
+        "symfony/event-dispatcher": "^7.3",
+        "guzzlehttp/guzzle": "^7.10",
+      "ext-json": "*"
+    },
+    "config": {
+        "allow-plugins": {
+            "php-http/discovery": true
+        }
+    }
+}
