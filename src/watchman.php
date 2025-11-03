@@ -29,7 +29,7 @@ final class Watchman
         private readonly string $dateStart,
         private readonly string $dateEnd,
     ) {
-        $tokenfile = realpath(__DIR__ . '/../token.env');
+        $tokenfile = realpath(__DIR__ . '/../private/token.env');
         if (!file_exists($tokenfile)) {
             throw new LogicException('Missing file:' . $tokenfile);
         }
@@ -386,7 +386,7 @@ final class Watchman
             . '&without_genres=' . urlencode('10763|10764|10766|10767|10768')
             . '&with_original_language=de%7Cen%7Cja%7Cko'
             . '&with_networks=' . urlencode(implode('|', $this->lookup['useNetworks']));
-            //. '&with_watch_providers=' . urlencode($this->watchProviders);
+        //. '&with_watch_providers=' . urlencode($this->watchProviders);
 
         $json = $this->getData('discover', $uri, $page, $bypassCache);
         $this->log('Page ' . $json['page'] . '/' . $json['total_pages'] . ': ' . count($json['results']) . ' Results of ' . $json['total_results']);
@@ -397,7 +397,7 @@ final class Watchman
                 'description' => $result['overview'],
                 'popularity' => $result['popularity'],
                 'votes' => $result['vote_average'] . '@' . $result['vote_count'],
-                'airdate' => $result['first_air_date'],
+                'airdate' => $result['details']['next_episode_to_air'],
                 'logo' => 'https://media.themoviedb.org/t/p/w220_and_h330_face' . $result['poster_path'],
                 'genres' => $this->performLookup('genres', $result['genre_ids']),
             ];

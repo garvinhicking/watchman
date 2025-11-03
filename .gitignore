@@ -1,3 +1,6 @@
 cache/
-vendor/
+vendor/*
+!/vendor/.htaccess
 token.env
+private/*
+public/*.html
