@@ -419,7 +419,7 @@ final class Watchman
         }
     }
 
-    public function compile(): void
+    public function compile(): int
     {
         file_put_contents(self::CACHE_DIR . DIRECTORY_SEPARATOR . 'compiled.json', json_encode($this->lookup['series'], JSON_PRETTY_PRINT));
 
@@ -518,6 +518,8 @@ final class Watchman
 
         file_put_contents(self::FINAL_DIR . DIRECTORY_SEPARATOR . '/index.html', $html);
         file_put_contents(self::FINAL_DIR . DIRECTORY_SEPARATOR . 'archive-' . date('Y-m-d') . '.html', $html);
+
+        return $compiled;
     }
 
     private function performLookup(string $type, $dataArray): string
@@ -546,5 +548,10 @@ final class Watchman
 $watchman = new Watchman(date('Y-m-d'), date('Y-m-d', time()+86400*7));
 $watchman->recursiveDiscover(1);
 $watchman->iterateSeries();
-$watchman->compile();
+$series = $watchman->compile();
 $watchman->log('Done');
+
+$hookFile = __DIR__ . '/../private/hook.php';
+if (file_exists($hookFile)) {
+    include $hookFile;
+}
