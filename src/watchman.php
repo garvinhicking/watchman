@@ -397,7 +397,6 @@ final class Watchman
                 'description' => $result['overview'],
                 'popularity' => $result['popularity'],
                 'votes' => $result['vote_average'] . '@' . $result['vote_count'],
-                'airdate' => $result['details']['next_episode_to_air'],
                 'logo' => 'https://media.themoviedb.org/t/p/w220_and_h330_face' . $result['poster_path'],
                 'genres' => $this->performLookup('genres', $result['genre_ids']),
             ];
@@ -460,7 +459,7 @@ final class Watchman
             $output .= $indent . '<p><strong style="color: red">Status: ' . $status . ' (' . ($series['details']['type'] ?? 'unknown') . ', ' . ($series['details']['status'] ?? 'unknown') . ')</strong></p>' . "\n";
             $output .= $indent . '<p><img src="' . htmlspecialchars($series['logo']) . '" alt="(Cover)" loading="lazy"></p>' . "\n";
             $output .= $indent . '<p>(' . htmlspecialchars($series['genres']) . ') ' . htmlspecialchars($series['description']) . '</p>' . "\n";
-            $output .= $indent . '<p><strong>' . date('d.m.Y', strtotime($series['airdate'])) . '</strong></p>' . "\n";
+            $output .= $indent . '<p><strong>' . date('d.m.Y', strtotime($series['details']['next_episode_to_air'])) . '</strong></p>' . "\n";
             $output .= $indent . '<p><em>' . htmlspecialchars($series['popularity'] . ' - ' . $series['votes']) . '</em></p>' . "\n";
 
             $creators = [];
