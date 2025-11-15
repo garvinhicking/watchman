@@ -1,0 +1,414 @@
+/* Reset and Base Styles */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  line-height: 1.6;
+  color: #333;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  margin: 0;
+  padding: 16px;
+  font-size: 15px;
+  min-height: 100vh;
+}
+
+/* Network Group Styling */
+.network-group {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border: none !important;
+  border-radius: 16px;
+  padding: 0;
+  margin: 0 0 24px 0;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+  overflow: hidden;
+}
+
+.network-name {
+  background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+  color: white;
+  font-size: 18px;
+  font-weight: 700;
+  padding: 18px 24px;
+  margin: 0;
+  border-radius: 50px;
+  text-align: center;
+  margin-bottom: 15px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Show Information Container */
+.show_information {
+  padding: 0;
+  border-bottom: 2px solid #f0f0f0;
+  background: white;
+}
+
+.show_information:last-child {
+  border-bottom: none;
+}
+
+/* TOP SECTION */
+.top_section {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-rows: auto auto;
+  gap: 8px 16px;
+  padding: 20px 24px 16px 24px;
+  position: relative;
+  border-radius: 0;
+}
+
+/* Top Section Color Schemes */
+.top_section.series_premiere {
+  background: linear-gradient(135deg, #ff6b6b 0%, #ff0000 100%);
+}
+
+.top_section.season_premiere {
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+}
+
+.top_section.full_show {
+  background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+}
+
+.show_name {
+  grid-column: 1;
+  grid-row: 1 / 3;
+  margin: 0;
+  font-size: 22px;
+  font-weight: 800;
+  line-height: 1.2;
+  align-self: center;
+}
+
+.show_name a {
+  color: white;
+  text-decoration: none;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: opacity 0.2s;
+}
+
+.show_name a:hover {
+  opacity: 0.9;
+}
+
+.show_episode_number {
+  grid-column: 2;
+  grid-row: 1;
+  margin: 0;
+  font-size: 20px;
+  font-weight: 900;
+  color: white;
+  text-align: right;
+  padding: 8px 16px;
+  background: rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+  align-self: start;
+  letter-spacing: 1px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.show_airdate {
+  grid-column: 2;
+  grid-row: 2;
+  margin: 0;
+  font-size: 14px;
+  text-align: center;
+  align-self: start;
+}
+
+.show_airdate strong {
+  color: white;
+  font-weight: 600;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+/* MAIN SECTION */
+.main_section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  padding: 24px;
+  background: white;
+}
+
+/* Left Section - Thumbnail */
+.left_section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.show_thumbnail {
+  margin: 0;
+  position: relative;
+}
+
+.show_thumbnail img {
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.show_thumbnail img:hover {
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25);
+}
+
+.show_popularity {
+  margin: 0;
+  font-size: 13px;
+  color: #666;
+  padding: 8px 12px;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  border-radius: 8px;
+  text-align: left;
+}
+
+.show_popularity em {
+  font-style: normal;
+  font-weight: 600;
+}
+
+.show_votes {
+  display: inline-block;
+  background: rgba(255, 255, 255, 0.8);
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-style: normal;
+  margin-left: 4px;
+}
+
+/* Right Section - Status & Type */
+.right_section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: flex-end;
+  text-align: right;
+}
+
+.show_status {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 10px 16px;
+  border-radius: 10px;
+  line-height: 1.4;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  max-width: 100%;
+}
+
+.show_status.show_series_premiere {
+  background: linear-gradient(135deg, #ff6b6b 0%, #ff0000 100%);
+  color: white;
+}
+
+.show_status.show_season_premiere {
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  color: white;
+}
+
+.show_status.show_full_show {
+  background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+  color: white;
+}
+
+.show_type {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: #666;
+  padding: 8px 16px;
+  background: #f5f5f7;
+  border-radius: 8px;
+}
+
+/* BOTTOM SECTION */
+.bottom_section {
+  padding: 24px;
+  padding-top: 0px;
+  background: linear-gradient(to bottom, #ffffff 0%, #f9fafb 100%);
+  border-radius: 0 0 0 0;
+}
+
+.show_main_information {
+  margin: 0 0 16px 0;
+  line-height: 1.8;
+}
+
+.show_genres {
+  display: inline-block;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 6px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  margin-right: 0px;
+  margin-bottom: 0px;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+}
+
+.show_description {
+  display: block;
+  margin-top: 12px;
+  color: #2d3748;
+  font-size: 15px;
+  line-height: 1.8;
+  font-weight: 400;
+  max-width: 600px;
+}
+
+.show_creators,
+.show_cast {
+  margin: 8px 0;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #666;
+  padding: 8px 0;
+}
+
+.show_creators {
+  border-top: 1px solid #e8e8e8;
+  padding-top: 12px;
+  margin-top: 16px;
+}
+
+.show_created_by,
+.show_actors_intro {
+  font-weight: 700;
+  color: #4a5568;
+  display: inline;
+  margin-right: 6px;
+  text-transform: uppercase;
+  font-size: 11px;
+  letter-spacing: 0.5px;
+}
+
+.show_created_names,
+.show_actors_names {
+  color: #666;
+  font-weight: 500;
+}
+
+/* Responsive adjustments */
+@media (max-width: 360px) {
+  body {
+    padding: 12px;
+  }
+  
+  .network-name {
+    font-size: 16px;
+    padding: 14px 16px;
+  }
+  
+  .top_section {
+    padding: 16px 16px 12px 16px;
+  }
+  
+  .show_name {
+    font-size: 18px;
+  }
+  
+  .show_episode_number {
+    font-size: 16px;
+    padding: 6px 12px;
+  }
+  
+  .main_section {
+    padding: 16px;
+    gap: 16px;
+  }
+  
+  .bottom_section {
+    padding: 16px;
+  }
+}
+
+@media (min-width: 400px) {
+  body {
+    padding: 20px;
+  }
+  
+  .network-group {
+    margin: 0 0 28px 0;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  body {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  }
+  
+  .network-group {
+    background: rgba(42, 42, 42, 0.95);
+  }
+  
+  .show_information {
+    background: #2a2a2a;
+    border-bottom-color: #3a3a3a;
+  }
+  
+  .main_section {
+    background: #2a2a2a;
+  }
+  
+  .bottom_section {
+    background: linear-gradient(to bottom, #2a2a2a 0%, #252525 100%);
+  }
+  
+  .show_description {
+    color: #d0d0d0;
+  }
+  
+  .show_type {
+    background: #3a3a3a;
+    color: #b0b0b0;
+  }
+  
+  .show_popularity {
+    background: linear-gradient(135deg, #3a3a3a 0%, #2a2a2a 100%);
+    color: #b0b0b0;
+  }
+  
+  .show_votes {
+    background: rgba(58, 58, 58, 0.8);
+  }
+  
+  .show_creators,
+  .show_cast {
+    color: #999;
+    border-top-color: #3a3a3a;
+  }
+  
+  .show_created_by,
+  .show_actors_intro {
+    color: #b0b0b0;
+  }
+  
+  .show_created_names,
+  .show_actors_names {
+    color: #999;
+  }
+}
+
+.disclaimer {
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.disclaimer .top_section {
+  width: 50%;
+  float: left;
+}

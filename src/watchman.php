@@ -436,40 +436,58 @@ final class Watchman
                 $this->lookup['filtered'][] = 'Filtered indonesian: ' . $series['name'];
                 continue;
             }
-            $output = $indent . '<h2 data-id="' . $id . '"><a href="' . htmlspecialchars($series['details']['homepage'] ?? '#') . '" target="_blank">' . htmlspecialchars($series['name']) . '</a></h2>' . "\n";
             $season = $series['details']['next_episode_to_air']['season_number'] ?? 0;
             $episode = $series['details']['next_episode_to_air']['episode_number'] ?? 0;
 
+            $fulldumpable = false;
             if ($season === 0) {
                 $season = $series['details']['last_episode_to_air']['season_number'] ?? 0;
+                $fulldumpable = true;
             }
             if ($episode === 0) {
                 $episode = $series['details']['last_episode_to_air']['episode_number'] ?? 0;
+                $fulldumpable = true;
             }
 
             if ($season === 1 && $episode === 1) {
                 $status = 'SERIES PREMIERE';
+                $css = 'series_premiere';
             } elseif ($episode === 1) {
                 $status = 'SEASON PREMIERE';
-            } elseif ($episode === $series['details']['number_of_episodes'] ?? -1) {
-                $status = 'FULLDUMP';
+                $css = 'season_premiere';
+            } elseif (($episode === $series['details']['number_of_episodes'] ?? -1) && $fulldumpable) {
+                $status = 'FULLDUMP / FINALE';
+                $css = 'full_show';
             } else {
-                $this->lookup['filtered'][] = 'Filtered #' . $id . ' S' . $season . 'E' . $episode . ': ' . $series['name'];
+                $this->lookup['filtered'][] = 'Filtered #' . $id . ' S' . $season . 'E' . (strlen($episode) === 1 ? '0' . $episode : $episode) . ': ' . $series['name'];
                 continue;
             }
-            $output .= $indent . '<p><strong style="color: red">Status: ' . $status . ' (' . ($series['details']['type'] ?? 'unknown') . ', ' . ($series['details']['status'] ?? 'unknown') . ')</strong></p>' . "\n";
-            $output .= $indent . '<p><img src="' . htmlspecialchars($series['logo']) . '" alt="(Cover)" loading="lazy"></p>' . "\n";
-            $output .= $indent . '<p>(' . htmlspecialchars($series['genres']) . ') ' . htmlspecialchars($series['description']) . '</p>' . "\n";
-            $output .= $indent . '<p><strong>' . date('d.m.Y', strtotime($series['details']['next_episode_to_air']['airdate'] ?? $series['details']['last_episode_to_air']['airdate'] ?? $series['airdate'] ?? date('Y-m-d'))) . '</strong></p>' . "\n";
-            $output .= $indent . '<p><em>' . htmlspecialchars($series['popularity'] . ' - ' . $series['votes']) . '</em></p>' . "\n";
+            $output = $indent . '<div class="top_section ' . $css . '"">' . "\n";
+            $output .= $indent . '    <h2 data-id="' . $id . '" class="show_name"><a href="' . htmlspecialchars($series['details']['homepage'] ?? '#') . '" target="_blank">' . htmlspecialchars($series['name']) . '</a></h2>' . "\n";
+            $output .= $indent . '    <p class="show_episode_number">S' . (strlen($season) === 1 ? '0' . $season : $season) . 'E' . (strlen($episode) === 1 ? '0' . $episode : $episode) . '</p>' . "\n";
+            $output .= $indent . '    <p class="show_airdate"><strong>' . date('d.m.Y', strtotime($series['details']['next_episode_to_air']['air_date'] ?? $series['details']['last_episode_to_air']['air_date'] ?? $series['airdate'] ?? date('Y-m-d'))) . '</strong></p>' . "\n";
+            $output .= $indent . '</div>' . "\n";
+            $output .= $indent . '<div class="main_section">' . "\n"; 
+            $output .= $indent . '    <div class="left_section">' . "\n"; 
+            $output .= $indent . '        <p class="show_thumbnail"><a href="' . htmlspecialchars($series['details']['homepage'] ?? '#') . '" target="_blank"><img src="' . htmlspecialchars($series['logo']) . '" alt="(Cover)" loading="lazy"></a></p>' . "\n";
+            $output .= $indent . '        <p class="show_popularity"><em>' . htmlspecialchars($series['popularity']) . ' - <span class="show_votes">' . htmlspecialchars($series['votes']) . '</span></em></p>' . "\n";
+            $output .= $indent . '    </div>' . "\n"; 
+            $output .= $indent . '    <div class="right_section">' . "\n"; 
+            $output .= $indent . '        <p class="show_genres">' . htmlspecialchars($series['genres']) . '</p>' . "\n";
+            $output .= $indent . '        <p class="show_status show_' . $css . '">' . $status . ', ' . ($series['details']['status'] ?? 'unknown') . '</p>' . "\n";
+            $output .= $indent . '        <p class="show_type">' . ($series['details']['type'] ?? 'unknown') . '</p>' . "\n";
+            $output .= $indent . '    </div>' . "\n"; 
+            $output .= $indent . '</div>' . "\n"; 
+            $output .= $indent . '<div class="bottom_section">' . "\n"; 
+            $output .= $indent . '    <p class="show_main_information"><span class="show_description">' . htmlspecialchars($series['description']) . '</span></p>' . "\n";
 
             $creators = [];
             foreach ($series['details']['created_by'] ?? [] as $creator) {
                 $creators[] = $creator['name'];
             }
             if ($creators !== []) {
-                $output .= $indent . '<p>Created by: ';
-                $output .= htmlspecialchars(implode(', ', $creators)) . '</p>' . "\n";
+                $output .= $indent . '    <p class="show_creators"><span class="show_created_by">Created by:</span> <span class="show_created_names">';
+                $output .= htmlspecialchars(implode(', ', $creators)) . '</span></p>' . "\n";
             }
 
             $cast = [];
@@ -477,9 +495,10 @@ final class Watchman
                 $cast[] = $person['name'];
             }
             if ($cast !== []) {
-                $output .= $indent . '<p>Cast: ';
-                $output .= htmlspecialchars(implode(', ', $cast)) . '</p>' . "\n";
+                $output .= $indent . '    <p class="show_cast"><span class="show_actors_intro">Cast:</span> <span class="show_actors_names">';
+                $output .= htmlspecialchars(implode(', ', $cast)) . '</span></p>' . "\n";
             }
+            $output .= $indent . '</div>' . "\n";
 
             $network = $series['details']['networks'][0]['name'] ?? '(Unknown)';
             if (!isset($aggregation[$network])) {
@@ -491,22 +510,26 @@ final class Watchman
 
         $this->log("Compiled " . $compiled . " series.");
 
-        $html = '<html><head><title>Watchman</title></head><body>';
-        $html .= '<p>All data and linked images courtesy and provided by <a href="https://www.themoviedb.org/about/logos-attribution">The Movie DB (TMDB)</a></p>';
+        $html = '<html><head><title>Watchman</title><link rel="stylesheet" href="style.css"></head><body>';
+        $html .= "\n" . '<div class="disclaimer"><p>All data and linked images courtesy and provided by <a href="https://www.themoviedb.org/about/logos-attribution">The Movie DB (TMDB)</a></p>' . "\n";
+        $html .= '<div class="top_section series_premiere">New series</div>';
+        $html .= '<div class="top_section season_premiere">New season</div>';
+        $html .= '<br style="clear:both">';
+        $html .= '</div>' . "\n";
         $html .= '<form>' . "\n\n";
         foreach ($aggregation as $network => $output) {
-            $html .= '<fieldset style="border: 2px solid red">' . "\n";
-            $html .= '<legend>' . $network . '</legend>' . "\n";
-            $html .= '<div>' . "\n";
-            $html .= implode("\n\n<hr>\n\n", $output) . "\n";
-            $html .= '</div>' . "\n";
+            $html .= '<fieldset class="network-group">' . "\n";
+            $html .= '<legend class="network-name">' . $network . '</legend>' . "\n";
+            $html .= ' <div class="show_information">' . "\n";
+            $html .= implode(" </div>\n <div class=\"show_information\">\n", $output) . "\n";
+            $html .= ' </div>' . "\n";
             $html .= '</fieldset>' . "\n\n";
         }
         $html .= "\n\n";
 
         $html .= "Network changes:<ol>\n";
-        foreach ($this->lookup['changedNetworks'] as $networkName) {
-            $html .= '<li>' . $networkName . '</li>' . "\n";
+        foreach ($this->lookup['changedNetworks'] as $networkId => $networkName) {
+            $html .= '<li>' . $networkName . ' / ' . $networkId . '</li>' . "\n";
         }
         $html .= '</ol>' . "\n";
         $html .= "Filtered:\n<ol>\n";
