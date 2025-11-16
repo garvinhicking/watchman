@@ -42,7 +42,7 @@ final class Watchman
             mkdir(self::FINAL_DIR, 0777, true);
         }
 
-        $networkCache = 'tv_network_ids_' . date('m_d_Y') . '.json';
+        $networkCache = 'tv_network_ids_' . date('m_d_Y', time()-86400) . '.json';
         if (!file_exists($networkCache)) {
             echo "Fetching network IDs\n";
             $this->lookup['networks'] = $this->getUnzipped($networkCache, 'https://files.tmdb.org/p/exports/' . $networkCache . '.gz');
@@ -510,7 +510,7 @@ final class Watchman
 
         $this->log("Compiled " . $compiled . " series.");
 
-        $html = '<html><head><title>Watchman</title><link rel="stylesheet" href="style.css"></head><body>';
+        $html = '<html><head><title>Watchman</title><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="stylesheet" href="style.css"></head><body>';
         $html .= "\n" . '<div class="disclaimer"><p>All data and linked images courtesy and provided by <a href="https://www.themoviedb.org/about/logos-attribution">The Movie DB (TMDB)</a></p>' . "\n";
         $html .= '<div class="top_section series_premiere">New series</div>';
         $html .= '<div class="top_section season_premiere">New season</div>';
