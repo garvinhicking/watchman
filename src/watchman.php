@@ -496,7 +496,15 @@ final class Watchman
             }
             if ($cast !== []) {
                 $output .= $indent . '    <p class="show_cast"><span class="show_actors_intro">Cast:</span> <span class="show_actors_names">';
-                $output .= htmlspecialchars(implode(', ', $cast)) . '</span></p>' . "\n";
+                if (count($cast) > 20) {
+                    $output .= '<details>';
+                    $output .= '<summary>' . htmlspecialchars(implode(', ', array_splice($cast, 0, 20))) . '</summary>';
+                    $output .= htmlspecialchars(implode(', ', array_splice($cast, 20))) . '</summary>';
+                    $output .= '</details>';
+                    $output .= '</span></p>' . "\n";
+                } else {
+                    $output .= htmlspecialchars(implode(', ', $cast)) . '</span></p>' . "\n";
+                }
             }
             $output .= $indent . '</div>' . "\n";
 
